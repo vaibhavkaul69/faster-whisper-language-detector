@@ -426,59 +426,74 @@ class WhisperModel:
 
             language_probability = 1
 
-        tokenizer = Tokenizer(
-            self.hf_tokenizer,
-            self.model.is_multilingual,
-            task=task,
-            language=language,
-        )
+        if language is 'en':
+            tokenizer = Tokenizer(
+                self.hf_tokenizer,
+                self.model.is_multilingual,
+                task=task,
+                language=language,
+            )
 
-        options = TranscriptionOptions(
-            beam_size=beam_size,
-            best_of=best_of,
-            patience=patience,
-            length_penalty=length_penalty,
-            repetition_penalty=repetition_penalty,
-            no_repeat_ngram_size=no_repeat_ngram_size,
-            log_prob_threshold=log_prob_threshold,
-            no_speech_threshold=no_speech_threshold,
-            compression_ratio_threshold=compression_ratio_threshold,
-            condition_on_previous_text=condition_on_previous_text,
-            prompt_reset_on_temperature=prompt_reset_on_temperature,
-            temperatures=(
-                temperature if isinstance(temperature, (list, tuple)) else [temperature]
-            ),
-            initial_prompt=initial_prompt,
-            prefix=prefix,
-            suppress_blank=suppress_blank,
-            suppress_tokens=get_suppressed_tokens(tokenizer, suppress_tokens),
-            without_timestamps=without_timestamps,
-            max_initial_timestamp=max_initial_timestamp,
-            word_timestamps=word_timestamps,
-            prepend_punctuations=prepend_punctuations,
-            append_punctuations=append_punctuations,
-            max_new_tokens=max_new_tokens,
-            clip_timestamps=clip_timestamps,
-            hallucination_silence_threshold=hallucination_silence_threshold,
-            hotwords=hotwords,
-        )
+            options = TranscriptionOptions(
+                beam_size=beam_size,
+                best_of=best_of,
+                patience=patience,
+                length_penalty=length_penalty,
+                repetition_penalty=repetition_penalty,
+                no_repeat_ngram_size=no_repeat_ngram_size,
+                log_prob_threshold=log_prob_threshold,
+                no_speech_threshold=no_speech_threshold,
+                compression_ratio_threshold=compression_ratio_threshold,
+                condition_on_previous_text=condition_on_previous_text,
+                prompt_reset_on_temperature=prompt_reset_on_temperature,
+                temperatures=(
+                    temperature if isinstance(temperature, (list, tuple)) else [temperature]
+                ),
+                initial_prompt=initial_prompt,
+                prefix=prefix,
+                suppress_blank=suppress_blank,
+                suppress_tokens=get_suppressed_tokens(tokenizer, suppress_tokens),
+                without_timestamps=without_timestamps,
+                max_initial_timestamp=max_initial_timestamp,
+                word_timestamps=word_timestamps,
+                prepend_punctuations=prepend_punctuations,
+                append_punctuations=append_punctuations,
+                max_new_tokens=max_new_tokens,
+                clip_timestamps=clip_timestamps,
+                hallucination_silence_threshold=hallucination_silence_threshold,
+                hotwords=hotwords,
+            )
 
-        segments = self.generate_segments(features, tokenizer, options, encoder_output)
+            segments = self.generate_segments(features, tokenizer, options, encoder_output)
 
-        if speech_chunks:
-            segments = restore_speech_timestamps(segments, speech_chunks, sampling_rate)
+            if speech_chunks:
+                segments = restore_speech_timestamps(segments, speech_chunks, sampling_rate)
 
-        info = TranscriptionInfo(
-            language=language,
-            language_probability=language_probability,
-            duration=duration,
-            duration_after_vad=duration_after_vad,
-            transcription_options=options,
-            vad_options=vad_parameters,
-            all_language_probs=all_language_probs,
-        )
+            info = TranscriptionInfo(
+                language=language,
+                language_probability=language_probability,
+                duration=duration,
+                duration_after_vad=duration_after_vad,
+                transcription_options=options,
+                vad_options=vad_parameters,
+                all_language_probs=all_language_probs,
+            )
 
-        return segments, info
+            return segments, info
+        
+        else:
+            segments = []
+            info = TranscriptionInfo(
+                language=language,
+                language_probability=language_probability,
+                duration=duration,
+                duration_after_vad=duration_after_vad,
+                transcription_options=options,
+                vad_options=vad_parameters,
+                all_language_probs=all_language_probs,
+            )
+            
+            return segments, info
 
     def generate_segments(
         self,
