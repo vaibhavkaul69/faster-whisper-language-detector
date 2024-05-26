@@ -426,7 +426,7 @@ class WhisperModel:
 
             language_probability = 1
 
-        if language is 'en':
+        if language == 'en':
             tokenizer = Tokenizer(
                 self.hf_tokenizer,
                 self.model.is_multilingual,
@@ -479,7 +479,7 @@ class WhisperModel:
                 all_language_probs=all_language_probs,
             )
 
-            return {"segments": segments, "info": info}
+            return {"segments": segments, "info": info, "is_english": language == 'en', "name": "Vaibhav"}
         
         else:
             new_segments = []
@@ -489,7 +489,7 @@ class WhisperModel:
                 "is_english": language == 'en'  # This will dynamically check if the language is 'en'
             }
             
-            return {"segments": new_segments, "info": new_info}
+            return {"segments": new_segments, "info": new_info, "name": "Vibhu"}
 
     def generate_segments(
         self,
