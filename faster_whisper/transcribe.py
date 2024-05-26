@@ -410,6 +410,8 @@ class WhisperModel:
                         key=lambda lang: len(detected_language_info[lang]),
                     )
                     language_probability = max(detected_language_info[language])
+                    print('Vaibhav ka log')
+                    print(language)
 
                 self.logger.info(
                     "Detected language '%s' with probability %.2f",
@@ -483,15 +485,11 @@ class WhisperModel:
         
         else:
             segments = []
-            info = TranscriptionInfo(
-                language=language,
-                language_probability=language_probability,
-                duration=duration,
-                duration_after_vad=duration_after_vad,
-                transcription_options=options,
-                vad_options=vad_parameters,
-                all_language_probs=all_language_probs,
-            )
+            info = {
+                "language": info.language,
+                "language_probability": info.language_probability,
+                "is_english": False # This will be True if the language is 'en', otherwise False
+            }
             
             return segments, info
 
