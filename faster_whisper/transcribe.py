@@ -479,19 +479,17 @@ class WhisperModel:
                 all_language_probs=all_language_probs,
             )
 
-            return segments, info
+            return {"segments": segments, "info": info}
         
         else:
-            print('Vaibhav ka log')
-            print(language)
-            segments = []
-            info = {
+            new_segments = []
+            new_info = {
                 "language": language,
                 "language_probability": language_probability,
-                "is_english": False # This will be True if the language is 'en', otherwise False
+                "is_english": language == 'en'  # This will dynamically check if the language is 'en'
             }
             
-            return segments, info
+            return {"segments": new_segments, "info": new_info}
 
     def generate_segments(
         self,
