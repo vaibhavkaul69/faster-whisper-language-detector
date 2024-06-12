@@ -426,7 +426,7 @@ class WhisperModel:
 
             language_probability = 1
 
-        if language == 'en' or (language != 'en' and language_probability <= 0.6):
+        if language == 'en':
             tokenizer = Tokenizer(
                 self.hf_tokenizer,
                 self.model.is_multilingual,
