@@ -425,7 +425,9 @@ class WhisperModel:
                 language = "en"
 
             language_probability = 1
-
+            
+        print('__TRANSCRIPTION STARTED__')
+        
         if language == 'en':
             tokenizer = Tokenizer(
                 self.hf_tokenizer,
