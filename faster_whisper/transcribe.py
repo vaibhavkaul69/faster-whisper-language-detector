@@ -426,7 +426,7 @@ class WhisperModel:
 
             language_probability = 1
             
-        return language
+        return {"language": language, "language_probability": language_probability, "is_english": language == 'en'}
         if language == 'en':
             tokenizer = Tokenizer(
                 self.hf_tokenizer,
