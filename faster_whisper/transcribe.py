@@ -468,6 +468,9 @@ class WhisperModel:
 
             if speech_chunks:
                 segments = restore_speech_timestamps(segments, speech_chunks, sampling_rate)
+                
+            # Collect all text from the segments to form the complete transcribed text.
+            # transcribed_text = " ".join([segment.text for segment in segments])
 
             info = TranscriptionInfo(
                 language=language,
@@ -489,7 +492,7 @@ class WhisperModel:
                 "is_english": language == 'en'  # This will dynamically check if the language is 'en'
             }
             
-            return {"segments": new_segments, "info": new_info}
+            return {"segments": new_segments, "info": new_info, "transcribed_text": None}
 
     def generate_segments(
         self,
