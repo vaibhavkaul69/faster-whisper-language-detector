@@ -426,7 +426,7 @@ class WhisperModel:
 
             language_probability = 1
     
-        if language == 'en':
+        if language == 'en' or language != 'en':
             tokenizer = Tokenizer(
                 self.hf_tokenizer,
                 self.model.is_multilingual,
@@ -471,6 +471,16 @@ class WhisperModel:
                 
             # Collect all text from the segments to form the complete transcribed text.
             # transcribed_text = " ".join([segment.text for segment in segments])
+            
+            transcript = []
+            
+            if segments:
+                for i, segment in enumerate(segments):
+                    # Log each segment's text and ID
+                    transcript.append(segment.text)
+
+            # Concatenate the transcript texts
+            concatenated_transcript = " ".join(transcript)
 
             info = TranscriptionInfo(
                 language=language,
@@ -482,7 +492,7 @@ class WhisperModel:
                 all_language_probs=all_language_probs,
             )
 
-            return {"segments": segments, "info": info, "is_english": language == 'en'}
+            return {"segments": segments, "info": info, "concatenated_transcript": concatenated_transcript}
         
         else:
             new_segments = []
