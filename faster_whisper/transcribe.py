@@ -472,15 +472,15 @@ class WhisperModel:
             # Collect all text from the segments to form the complete transcribed text.
             # transcribed_text = " ".join([segment.text for segment in segments])
             
-            transcript = []
+            # transcript = []
             
-            if segments:
-                for i, segment in enumerate(segments):
-                    # Log each segment's text and ID
-                    transcript.append(segment.text)
+            # if segments:
+            #     for i, segment in enumerate(segments):
+            #         # Log each segment's text and ID
+            #         transcript.append(segment.text)
 
-            # Concatenate the transcript texts
-            concatenated_transcript = " ".join(transcript)
+            # # Concatenate the transcript texts
+            # concatenated_transcript = " ".join(transcript)
 
             info = TranscriptionInfo(
                 language=language,
@@ -492,7 +492,7 @@ class WhisperModel:
                 all_language_probs=all_language_probs,
             )
 
-            return {"segments": segments, "info": info, "concatenated_transcript": concatenated_transcript}
+            return {"segments": segments, "info": info, "concatenated_transcript": None}
         
         else:
             new_segments = []
