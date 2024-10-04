@@ -492,7 +492,7 @@ class WhisperModel:
                 all_language_probs=all_language_probs,
             )
 
-            return {"segments": segments, "info": info, "concatenated_transcript": None}
+            return {"segments": segments, "info": info}
         
         else:
             new_segments = []
@@ -502,7 +502,7 @@ class WhisperModel:
                 "is_english": language == 'en'  
             }
             
-            return {"segments": new_segments, "info": new_info, "concatenated_transcript": None}
+            return {"segments": new_segments, "info": new_info}
 
     def generate_segments(
         self,
