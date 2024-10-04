@@ -499,10 +499,10 @@ class WhisperModel:
             new_info = {
                 "language": language,
                 "language_probability": language_probability,
-                "is_english": language == 'en'  # This will dynamically check if the language is 'en'
+                "is_english": language == 'en'  
             }
             
-            return {"segments": new_segments, "info": new_info, "transcribed_text": None}
+            return {"segments": new_segments, "info": new_info, "concatenated_transcript": None}
 
     def generate_segments(
         self,
