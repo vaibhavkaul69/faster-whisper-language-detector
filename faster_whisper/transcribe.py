@@ -496,17 +496,15 @@ class WhisperModel:
         
         else:
             new_segments = []
-            info = TranscriptionInfo(
-                language=language,
-                language_probability=language_probability,
-                duration=duration,
-                duration_after_vad=duration_after_vad,
-                transcription_options=options,
-                vad_options=vad_parameters,
-                all_language_probs=all_language_probs,
-            )
+            new_info = {
+                "language": language,
+                "duration": duration,
+                "duration_after_vad": duration_after_vad,
+                "language_probability": language_probability,
+                "is_english": language == 'en'  
+            }
             
-            return {"segments": new_segments, "info": info}
+            return {"segments": new_segments, "info": new_info}
 
     def generate_segments(
         self,
